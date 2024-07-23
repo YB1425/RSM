@@ -1,9 +1,13 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import (
-    RestaurantViewSet, MenuViewSet, OrderViewSet, ReservationViewSet,
-    ReviewViewSet, IngredientViewSet, StaffViewSet
-)
+from .views import *
+
+urlpatterns = [
+   path('register/', register_user, name='register'),
+   path('login/', user_login, name='login'),
+   path('logout/', user_logout, name='logout'),
+]
+
 
 router = DefaultRouter()
 router.register(r'restaurants', RestaurantViewSet)
