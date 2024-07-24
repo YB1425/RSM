@@ -1,60 +1,55 @@
 from rest_framework import serializers
-from .models import Restaurant, Menu, Order, Reservation, Review, Ingredient, Staff
-
-from rest_framework import serializers
-from .models import CustomUser
-
-
-
+from .models import CustomUser, Employee, Supply, Feedback, Booking, CustomerOrder, MenuItem, Diner
 
 class UserSerializer(serializers.ModelSerializer):
-   class Meta:
-       model = CustomUser
-       fields = ['username', 'email', 'password']
-       extra_kwargs = {'password': {'write_only': True}}
-
-
-   def create(self, validated_data):
-       user = CustomUser(
-           username=validated_data['username'],
-           email=validated_data['email']
-       )
-       user.set_password(validated_data['password'])
-       user.save()
-       return user
-
-
-class RestaurantSerializer(serializers.ModelSerializer):
+    # Password is write-only and should not be included in read operations
     class Meta:
-        model = Restaurant
+        model = CustomUser
+        fields = ['username', 'email', 'password']
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        # Create a user instance with the validated data
+        user = CustomUser(
+            username=validated_data['username'],
+            email=validated_data['email']
+        )
+        # Set the password using the set_password method to hash it properly
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
+class DinerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Diner
         fields = '__all__'
 
-class MenuSerializer(serializers.ModelSerializer):
+class MenuItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Menu
+        model = MenuItem
         fields = '__all__'
 
-class OrderSerializer(serializers.ModelSerializer):
+class CustomerOrderSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Order
+        model = CustomerOrder
         fields = '__all__'
 
-class ReservationSerializer(serializers.ModelSerializer):
+class BookingSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Reservation
+        model = Booking
         fields = '__all__'
 
-class ReviewSerializer(serializers.ModelSerializer):
+class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Review
+        model = Feedback
         fields = '__all__'
 
-class IngredientSerializer(serializers.ModelSerializer):
+class SupplySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Ingredient
+        model = Supply
         fields = '__all__'
 
-class StaffSerializer(serializers.ModelSerializer):
+class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Staff
+        model = Employee
         fields = '__all__'

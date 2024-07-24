@@ -1,12 +1,11 @@
 from django.contrib import admin
-from .models import *
-
+from .models import CustomUser, Employee, Supply, Feedback, Booking, CustomerOrder, MenuItem, Diner
 
 admin.site.register(CustomUser)
-admin.site.register(Staff)
-admin.site.register(Ingredient)
-admin.site.register(Review)
-admin.site.register(Reservation)
-admin.site.register(Order)
-admin.site.register(Menu)
-admin.site.register(Restaurant)
+admin.site.register(Employee)
+admin.site.register(Supply)
+admin.site.register(Feedback)
+admin.site.register(Booking)
+admin.site.register(CustomerOrder)
+admin.site.register(MenuItem)
+admin.site.register(Diner)
