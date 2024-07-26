@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     register_user, user_login, user_logout,
     RestaurantViewSet, MenuViewSet, OrderViewSet,
-    ReservationViewSet, ReviewViewSet, IngredientViewSet, StaffViewSet
+    ReservationViewSet, ReviewViewSet, IngredientViewSet, StaffViewSet,reset_password
 )
 
 # Initialize the default router
@@ -21,5 +21,7 @@ urlpatterns = [
     path('register/', register_user, name='register'),
     path('login/', user_login, name='login'),
     path('logout/', user_logout, name='logout'),
+    path('reset-password/', reset_password, name='reset_password'),
+
     path('', include(router.urls)),
 ]

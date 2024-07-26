@@ -7,6 +7,29 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status , viewsets
+from django.shortcuts import render , redirect
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
+
+def reset_password(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if new_password != confirm_password:
+            return render(request, 'reset_password.html', {'error': 'Passwords do not match'})
+
+        try:
+            user = CustomUser.objects.get(username=username)
+            user.password = make_password(new_password)
+            user.save()
+            return render(request, 'reset_password.html', {'success': 'Password successfully reset'})
+        except CustomUser.DoesNotExist:
+            return render(request, 'reset_password.html', {'error': 'Username does not exist'})
+
+    return render(request, 'reset_password.html')
+
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
@@ -91,5 +114,4 @@ def user_logout(request):
            return Response({'message': 'Successfully logged out.'}, status=status.HTTP_200_OK)
        except Exception as e:
            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
 
